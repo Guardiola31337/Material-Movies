@@ -1,6 +1,7 @@
 package com.hackvg.android.views.adapters;
 
 import android.content.Context;
+import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,7 +56,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MovieViewHolder> {
         TvMovie selectedMovie = movieList.get(position);
 
         holder.titleTextView.setText(selectedMovie.getTitle());
-        holder.coverImageView.setTransitionName("cover" + position);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            holder.coverImageView.setTransitionName("cover" + position);
 
         String posterURL = Constants.BASIC_STATIC_URL + selectedMovie.getPoster_path();
 

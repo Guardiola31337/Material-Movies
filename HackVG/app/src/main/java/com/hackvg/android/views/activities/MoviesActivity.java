@@ -10,13 +10,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.util.SparseArray;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toolbar;
 
 import com.hackvg.android.R;
 import com.hackvg.android.mvp.presenters.MoviesPresenter;
@@ -64,11 +64,10 @@ public class MoviesActivity extends ActionBarActivity implements
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
 
-        setActionBar(mToolbar);
-        getActionBar().setTitle("");
-        getActionBar().setHomeAsUpIndicator(
-            getDrawable(R.drawable.ic_menu_white_24dp));
+        setSupportActionBar(mToolbar);
+        getSupportActionBar().setTitle("");
 
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         mToolbar.setNavigationOnClickListener(this);
 
         mRecycler.setLayoutManager(new GridLayoutManager(this, COLUMNS));

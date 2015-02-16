@@ -3,8 +3,6 @@ package com.hackvg.android.views.activities;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Animatable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -12,9 +10,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.graphics.Palette;
 import android.transition.Slide;
-import android.transition.Transition;
 import android.view.View;
-import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -25,7 +21,6 @@ import com.hackvg.android.R;
 import com.hackvg.android.mvp.presenters.MovieDetailPresenter;
 import com.hackvg.android.mvp.views.DetailView;
 import com.hackvg.android.utils.GUIUtils;
-import com.hackvg.android.utils.HackVGTransitionListener;
 import com.hackvg.android.views.custom_views.ObservableScrollView;
 import com.hackvg.android.views.custom_views.ScrollViewListener;
 
@@ -60,19 +55,24 @@ public class MovieDetailActivity extends Activity implements DetailView,
         R.id.activity_detail_company,
         R.id.activity_detail_tagline,
         R.id.activity_detail_confirmation_text,
-    }) List<TextView> movieInfoTextViews;
+    })
+    List<TextView> movieInfoTextViews;
 
     @InjectViews({
-        R.id.activity_detail_header_tagline,
+//        R.id.activity_detail_header_tagline,
         R.id.activity_detail_header_description
     }) List<TextView> headers;
 
-    @InjectView(R.id.activity_detail_book_info)              View mMovieDescriptionContainer;
-    @InjectView(R.id.activity_detail_fab)                    ImageView mFabButton;
-    @InjectView(R.id.activity_detail_cover)                  ImageView mCoverImageView;
-    @InjectView(R.id.activity_detail_confirmation_image)     ImageView mConfirmationView;
-    @InjectView(R.id.activity_detail_confirmation_container) FrameLayout mConfirmationContainer;
-    @InjectView(R.id.activity_movie_detail_scroll)           ObservableScrollView mObservableScrollView;
+    @InjectView(R.id.activity_detail_book_info)
+    View mMovieDescriptionContainer;
+    @InjectView(R.id.activity_detail_fab)
+    ImageView mFabButton;
+    @InjectView(R.id.activity_detail_cover)                     ImageView mCoverImageView;
+    @InjectView(R.id.activity_detail_confirmation_image)        ImageView mConfirmationView;
+    @InjectView(R.id.activity_detail_confirmation_container)
+    FrameLayout mConfirmationContainer;
+    @InjectView(R.id.activity_movie_detail_scroll)
+    ObservableScrollView mObservableScrollView;
 
 
     @Override
@@ -80,24 +80,23 @@ public class MovieDetailActivity extends Activity implements DetailView,
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        ButterKnife.inject(this);
 
         // Completes the SharedElement transition on Lollipop and higher
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-            getWindow().getSharedElementEnterTransition().addListener(transitionListener);
+//            getWindow().getSharedElementEnterTransition().addListener(transitionListener);
             int moviePosition = getIntent().getIntExtra("movie_position", 0);
             mCoverImageView.setTransitionName("cover" + moviePosition);
+            GUIUtils.makeTheStatusbarTranslucent(this);
         }
-
-        GUIUtils.makeTheStatusbarTranslucent(this);
-        ButterKnife.inject(this);
 
         String movieID = getIntent().getStringExtra("movie_id");
 
-        mFabDrawable = getResources().getDrawable(R.drawable.fab);
-        mFabButton.setBackground(mFabDrawable);
+//        mFabDrawable = getResources().getDrawable(R.drawable.fab);
+//        mFabButton.setBackground(mFabDrawable);
 
-        mObservableScrollView.setScrollViewListener(this);
+//        mObservableScrollView.setScrollViewListener(this);
 
         mDetailPresenter = new MovieDetailPresenter(this, movieID);
     }
@@ -153,8 +152,8 @@ public class MovieDetailActivity extends Activity implements DetailView,
     @Override
     public void showConfirmationView() {
 
-        GUIUtils.showViewByRevealEffect(mConfirmationContainer,
-            mFabButton, GUIUtils.getWindowWidth(this));
+//        GUIUtils.showViewByRevealEffect(mConfirmationContainer,
+//            mFabButton, GUIUtils.getWindowWidth(this));
 
         animateConfirmationView();
         startClosingConfirmationView();
@@ -163,19 +162,19 @@ public class MovieDetailActivity extends Activity implements DetailView,
     @Override
     public void animateConfirmationView() {
 
-        Drawable drawable = mConfirmationView.getDrawable();
+//        Drawable drawable = mConfirmationView.getDrawable();
 
         // Animated drawables are supported on Lollipop and higher
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            if (drawable instanceof Animatable)
-                ((Animatable) drawable).start();
-
-        } else {
-
-            mConfirmationView.startAnimation(AnimationUtils.loadAnimation(this,
-                R.anim.appear_rotate));
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//
+//            if (drawable instanceof Animatable)
+//                ((Animatable) drawable).start();
+//
+//        } else {
+//
+//            mConfirmationView.startAnimation(AnimationUtils.loadAnimation(this,
+//                R.anim.appear_rotate));
+//        }
     }
 
     @Override
@@ -189,7 +188,12 @@ public class MovieDetailActivity extends Activity implements DetailView,
             public void run() {
 
                 mObservableScrollView.setVisibility(View.GONE);
-                MovieDetailActivity.this. finishAfterTransition();
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                    MovieDetailActivity.this. finishAfterTransition();
+
+                else
+                    MovieDetailActivity.this. finish();
             }
 
         }, CONFIRMATION_VIEW_DELAY);
@@ -230,7 +234,7 @@ public class MovieDetailActivity extends Activity implements DetailView,
 
                 ButterKnife.apply(movieInfoTextViews, GUIUtils.setter, lightSwatch.getTitleTextColor());
 
-                mFabDrawable.setColorFilter(lightSwatch.getRgb(), PorterDuff.Mode.ADD);
+//                mFabDrawable.setColorFilter(lightSwatch.getRgb(), PorterDuff.Mode.ADD);
                 mConfirmationContainer.setBackgroundColor(lightSwatch.getRgb());
 
             } else {
@@ -241,8 +245,8 @@ public class MovieDetailActivity extends Activity implements DetailView,
                 int accentColor = getResources()
                     .getColor(R.color.theme_accent);
 
-                mFabDrawable.setColorFilter(accentColor, PorterDuff.Mode.ADD);
-                mConfirmationView.setBackgroundColor(primaryColor);
+//                mFabDrawable.setColorFilter(accentColor, PorterDuff.Mode.ADD);
+//                mConfirmationView.setBackgroundColor(primaryColor);
                 mMovieDescriptionContainer.setBackgroundColor(primaryColor);
             }
 
@@ -256,8 +260,8 @@ public class MovieDetailActivity extends Activity implements DetailView,
 
     public void colorBrightElements (Palette.Swatch brightSwatch) {
 
-        Drawable drawable = mConfirmationView.getDrawable();
-        drawable.setColorFilter(brightSwatch.getRgb(), PorterDuff.Mode.MULTIPLY);
+//        Drawable drawable = mConfirmationView.getDrawable();
+//        drawable.setColorFilter(brightSwatch.getRgb(), PorterDuff.Mode.MULTIPLY);
 
         movieInfoTextViews.get(CONFIRMATION).setTextColor(brightSwatch.getRgb());
         movieInfoTextViews.get(TITLE).setTextColor(brightSwatch.getTitleTextColor());
@@ -318,13 +322,13 @@ public class MovieDetailActivity extends Activity implements DetailView,
         }
     }
 
-    private final HackVGTransitionListener transitionListener = new HackVGTransitionListener() {
-
-        @Override
-        public void onTransitionEnd(Transition transition) {
-
-        super.onTransitionEnd(transition);
-        GUIUtils.showViewByScale(mFabButton);
-        }
-    };
+//    private final HackVGTransitionListener transitionListener = new HackVGTransitionListener() {
+//
+//        @Override
+//        public void onTransitionEnd(Transition transition) {
+//
+//        super.onTransitionEnd(transition);
+//            GUIUtils.showViewByScale(mFabButton);
+//        }
+//    };
 }
