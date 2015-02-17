@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     >
-
 
     <com.hackvg.android.views.custom_views.ObservableScrollView
         android:id="@+id/activity_movie_detail_scroll"
@@ -51,13 +49,14 @@
                 android:id="@+id/activity_detail_fab"
                 android:layout_width="@dimen/fab_size"
                 android:layout_height="@dimen/fab_size"
-                android:scaleX="0"
-                android:scaleY="0"
                 android:layout_alignParentRight="true"
                 android:layout_below="@+id/activity_detail_cover"
                 android:layout_marginRight="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="-27dp"
+                android:scaleX="0"
+                android:scaleY="0"
                 android:src="@drawable/ic_fab_star"
+                android:background="@drawable/fab"
                 android:elevation="4dp"
                 android:stateListAnimator="@anim/fab_animation"
                 />
@@ -92,14 +91,13 @@
                     style="@style/MaterialMoviesDetailField"
                     />
 
-                <!--<TextView-->
-                    <!--android:id="@+id/activity_detail_header_tagline"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-
-                    <!--android:text="@string/activity_detail_label_tagline"-->
-                    <!--style="@style/MaterialMoviesHeaderTextView"-->
-                    <!--/>-->
+                <TextView
+                    android:id="@+id/activity_detail_header_tagline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/activity_detail_label_tagline"
+                    style="@style/MaterialMoviesHeaderTextView"
+                    />
 
                 <TextView
                     android:id="@+id/activity_detail_tagline"
@@ -153,12 +151,12 @@
             android:layout_gravity="center_horizontal"
             android:textSize="40sp"
             android:layout_marginTop="@dimen/activity_vertical_margin_double_double"
-            android:textColor="#FFFFFF"/>
+            android:textColor="#FFFFFF"
+            />
 
         <include
             layout="@layout/imageview_star"
             />
-
 
     </FrameLayout>
 
